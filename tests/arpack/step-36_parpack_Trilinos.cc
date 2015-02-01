@@ -204,6 +204,7 @@ void test ()
   cell = dof_handler.begin_active (),
   endc = dof_handler.end ();
   for (; cell!=endc; ++cell)
+    if (cell->subdomain_id() == this_mpi_process)
     {
       fe_values.reinit (cell);
       cell_stiffness_matrix = 0;

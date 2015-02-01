@@ -137,12 +137,12 @@ void test ()
     const double x1 =  1.0;
     const double dL = (x1-x0) / n_mpi_processes;
 
-    Triangulation<dim>::active_cell_iterator
+    dealii::Triangulation<dim>::active_cell_iterator
     cell = triangulation.begin_active(),
     endc = triangulation.end();
     for (; cell!=endc; ++cell)
       {
-        const Point<dim> &center = cell->center();
+        const dealii::Point<dim> &center = cell->center();
         const double x = center[0];
 
         const unsigned int id = std::floor ( (x-x0)/dL);
@@ -224,6 +224,7 @@ void test ()
   cell = dof_handler.begin_active (),
   endc = dof_handler.end ();
   for (; cell!=endc; ++cell)
+    if (cell->subdomain_id() == this_mpi_process)
     {
       fe_values.reinit (cell);
       cell_stiffness_matrix = 0;
